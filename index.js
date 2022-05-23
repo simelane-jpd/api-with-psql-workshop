@@ -1,8 +1,8 @@
-//const supertest = require('supertest');
-//const PgPromise = require("pg-promise")
+const supertest = require('supertest');
+const PgPromise = require("pg-promise")
 const express = require('express');
-//const assert = require('assert');
-//const fs = require('fs');
+const assert = require('assert');
+const fs = require('fs');
 const garments = require('./garments.json')
 require('dotenv').config()
 
@@ -16,9 +16,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 
-//const DATABASE_URL = process.env.DATABASE_URL;
-//const pgp = PgPromise({});
-//const db = pgp(DATABASE_URL);
+const DATABASE_URL = process.env.DATABASE_URL || 'postgres://postgres@localhost:5432/garment_app'
+const pgp = PgPromise({});
+const db = pgp(DATABASE_URL);
 
 
 //API(app, db);
