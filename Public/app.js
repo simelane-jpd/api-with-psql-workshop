@@ -1,67 +1,71 @@
 document.addEventListener('alpine:init', () => {
-    Alpine.data('users', () => {
-        return {
-            init() {
-                fetch('https://jsonplaceholder.typicode.com/users')
-                    .then(r => r.json())
-                    .then(userData => this.users = userData)
-            },
-            open: false,
-            users: []
-        }
-    })
+    Alpine.data('garment', () => ({
+
+        garments: '',
+        genderFilter: '',
+        seasonFilter: '',
+        maxPrice: 0,
+        open: false,
+        description: '', 
+        price:'', 
+        img:'', 
+        season:'', 
+        gender:'',
+ 
+        toggle() {
+            this.open = ! this.open
+        },
+        getData(){
+        axios
+            .get(`/api/garments`)
+            .then(result => {
+                const results = result.data
+                this.garments=results.data
+            })
+        },
+        filterGarments(){
+            axios
+            .get(`/api/garments?gender=${this.genderFilter}&season=${this.seasonFilter}`)
+            .then(result => {
+                const results = result.data
+                this.garments=results.data
+            })
+        },
+        filterGarmentsByPrice(){
+            axios
+            .get(`/api/garments/price/${this.maxPrice}`)
+            .then(result => {
+                const results = result.data
+                this.garments=results.data
+            })
+        },
+        addGarment(){
+            const fields = {
+                description: this.description,
+                img: this.img,
+                price: this.price,
+                gender: this.gender,
+                season: this.season
+                };
+            axios
+            .post('/api/garment', fields)
+            .then(result => {
+               this.open=false
+               axios
+               .get(`/api/garments`)
+               .then(result => {
+                   const results = result.data
+                   this.garments=results.data
+               })
+               this.description= '', 
+               this.price='', 
+               this.img='', 
+               this.season='', 
+               this.gender=''
+			})
+		},
+        
+
+
+    }));
 })
-
-let seasonFilter = 'All';
-let genderFilter = 'All';
-
-
-const seasonOptions = document.querySelector('.seasons');
-const genderOptions = document.querySelector('.genders');
-const searchResultsElem = document.querySelector('.searchResults');
-const priceRangeElem = document.querySelector('.priceRange');
-const showPriceRangeElem = document.querySelector('.showPriceRange');
-const filterElem = document.querySelector('.filter');
-const addGarmentElem = document.querySelector('.addGarment');
-const garmentsElem = document.querySelector('.garments');
-//const loginElem = document.querySelector('.login')
-const usernameRec = document.querySelector('#username')
-//const loginBtn = document.querySelector('.loginBtn')
-const errorMessage = document.querySelector('.error-message')
-
-const garmentsTemplateText = document.querySelector('.garmentListTemplate');
-const garmentsTemplate = Handlebars.compile(garmentsTemplateText.innerHTML);
-
-seasonOptions.addEventListener('click', function(evt){
-	seasonFilter = evt.target.value;
-	filterData();
-});
-
-genderOptions.addEventListener('click', function(evt){
-	genderFilter = evt.target.value;
-	filterData();
-});
-
-function filterData() {
-	axios
-		.get(`/api/garments?gender=${genderFilter}&season=${seasonFilter}`)
-		.then(function(result) {
-			searchResultsElem.innerHTML = garmentsTemplate({
-				garments : result.data.garments
-			})
-		});
-}
-
-priceRangeElem.addEventListener('change', function(evt){
-	const maxPrice = evt.target.value;
-	showPriceRangeElem.innerHTML = maxPrice;
-	axios
-		.get(`/api/garments/price/${maxPrice}`)
-		.then(function(result) {
-			searchResultsElem.innerHTML = garmentsTemplate({
-				garments : result.data.garments
-			})
-		});
-});
-
-filterData();

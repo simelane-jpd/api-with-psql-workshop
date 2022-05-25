@@ -9,39 +9,21 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"></script>
 	<link rel="stylesheet" href="style.css">
 
-	<script class="garmentListTemplate" type="type/script-x" >
-		<div>
-			{{garments.length}} <strong>garments found</strong>
-		</div>
-		<div class="garments">
-			{{#each garments}}
-
-		<div class="garment">
-		<img src="/images/{{img}}" alt="">
-
-		<form action="/garment/" method="post">
-			<input type="hidden" name="img" value="{{img}}" >
-			<div class="field" >
-				{{description}}
-			</div>
-			<div class="field">
-				<strong>{{price}}</strong>
-			</div>
-		</form>
-		<div class="hidden">
-			<button data-garmentId="{{id}}" >Add to cart</button>
-		</div>
-
-	</div>
-	{{/each}}
-		</div>
-	</script>
+	
 </head>
-<body>
-	<div class="container" >
+
+	<body x-data="garment" x-init="getData()">
+		<nav class="navbar navbar-dark bg-dark">
+			<div class="justify-content-center container-fluid" id="brand">
+	
+				<h1 class="text-center title">Missy Tee Clothing Store</h1>
+			</div>
+		</nav>
+		<div class="container" >
+			<h1>Missy Tee Clothing Store</h1>
 		
 
-		<h1>Missy Tee - clothing store</h1>
+		
 
 		<!--div class="login">
 			<label>Enter Your GitHub Username : </label>
@@ -59,90 +41,124 @@
 		<div class="error-message">
 			
 		</div-->
+		<div class="garmentApi"></div>
 		<div class="filter" >
 			<h2>Filter garments</h2>
-			<div class="genders" >
+			<div class="genders" x-model="genderFilter">
 				<label>
-					<input type="radio" name="gender" value="All"> All
+					<input type="radio" name="gender" value=""> All
 				</label>
 				
 				<label>
-					<input type="radio" name="gender" value="Male"> Male
+					<input type="radio" name="gender" value="Male" @click="filterGarments()"> Male
 				</label>
+				
+				<label>
+					<input type="radio" name="gender" value="Female" @click="filterGarments()"> Female
+				</label>
+				<label>
+					<input type="radio" name="gender" value="Unisex" @click="filterGarments()"> Unisex
+				</label>
+			</div>
+			<div class="seasons" x-model="seasonFilter">
 
 				<label>
-					<input type="radio" name="gender" value="Female"> Female
+					<input type="radio" name="season" value="" @click="filterGarments()"> All
 				</label>
 				<label>
-					<input type="radio" name="gender" value="Unisex"> Unisex
+					<input type="radio" name="season" value="Summer" @click="filterGarments()"> Summer
+				</label>
+				<label>
+					<input type="radio" name="season" value="Winter" @click="filterGarments()"> Winter
+				</label>
+				<label>
+					<input type="radio" name="season" value="All Seasons" @click="filterGarments()"> All seasons
 				</label>
 			</div>
-			<div class="seasons" >
-				
-				<label >
-					<input type="radio" name="season" value="All"> All
-				</label>
-				<label>
-					<input type="radio" name="season" value="Summer"> Summer
-				</label>
-				<label>
-					<input type="radio" name="season" value="Winter"> Winter
-				</label>
-				<label>
-					<input type="radio" name="season" value="All Seasons"> All seasons
-				</label>
-			</div>
-			<div>
-				Filter by price range: 
-				<input type="range" name="priceRange" max="1000" step="50" class="priceRange" value="0"  >
-				R<span class="showPriceRange" >0</span>.00
+			<div class="col-3">
+				Filter by price range:
+				<input type="range" class="form-range" name="priceRange" max="1000" min="0" step="50" class="priceRange" value="0" @click="filterGarmentsByPrice()" x-model="maxPrice">
+				R<span x-text="Number(maxPrice).toFixed(2)" class="showPriceRange"></span>
 			</div>
 		</div>
-		
+
 		<div class="message" id="snackbar">
 
 		</div>
 
-		<div class="addGarment" >
-			
-			<div class="add button mt1" id="addGarmentBtn">
-				<button>Add a garment</button>
+		<div class="addGarment">
+			<button @click="toggle" class="btn btn-dark add button mt1" id="addGarmentBtn">Add garment</button>
+			<div class="add garment" x-show="open">
+				<h2>Add garment</h2>
+				<!-- <img :src="`images/${garment.img}`"> -->
+				<div class="field">
+					<label for="">Description</label>
+					<input type="text" name="description" class="description" x-model="description">
+				</div>
+				<div class="field">
+					<label for="">Image</label>
+					<input type="text" name="img" class="img" x-model="img">
+				</div>
+				<div class="field">
+					<label for="">Price</label>
+					<input type="number" name="price" step="0.01" class="price" x-model="price">
+				</div>
+				<div class="field">
+					<label for="">Gender</label>
+					<div>
+						<input type="text" name="gender" class="gender" x-model="gender">
+					</div>
+				</div>
+				<div class="field">
+					<label for="">Season</label>
+					<div>
+						<input type="text" name="season" class="season" x-model="season">
+					</div>
+				</div>
+				<div class="mt1">
+					<input @click="addGarment()" type="button" name="action" value="Add"
+					class="btn btn-dark addGarmentBtn">
+					<input @click="toggle" type="button" name="action" value="Hide" class="btn btn-dark hideAddGarmetBtn">
+				</div>
 			</div>
 
-			<div class="add garment hidden">
-				<h2>Add a garment</h2>
-				<!--img src="/images/{{img}}" alt=""-->
+		</div>
 
-				<!-- <form action="/garment/" method="post" class="addGarmentForm" > -->
-					
-					<div class="field" >
-						<table><tr>Description
-							<th>
-								<input type="text" name="description" class="description">
-							</th>
-						</tr>
+		<div>
+			<h2>Garments</h2>
+			<div>
+				<div class="garments">
+					<template x-for="garment in garments">
+						<div class="garment">
+							<img :src="`images/${garment.img}`">
+							<div class="field">
+								<span x-text="garment.description"></span>
+							</div>
+							<div class="field">
+								<strong>
+									<span x-text="garment.price"></span>
+								</strong>
+							</div>
+						</div>
+					</template>
+				</div>
+			</div>
 
-						</table>
+		</div>
+
+	</div>
+</div>
+
+
+</div>
+<!-- Alpine Plugins -->
+<script defer src="https://unpkg.com/@alpinejs/persist@3.x.x/dist/cdn.min.js"></script>
+
+<!-- Alpine Core -->
+<script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<script src="app.js"></script>
 						
-					</div>
-					
-					<div class="field">
-						<table><tr>Price
-							<th><input type="number" name="price" step = "0.01" class="price" ></th></tr></table>
-						
-					</div>
-					<div class="field">
-						<table><tr>Gender
-							<th><input type="text" name="gender" class="gender" ></th>
-						</tr></table>
-						
-					</div>
-					<div class="field">
-						<table><tr>Season
-							<th><input type="text" name="season" class="season" ></th>
-						</tr></table>
-						
-					</div>
+					<!--/div>
 					<div>Available images to choose from are : "green-dress.png, women-dress2.png, shirtmale.png, women-trouser.png, male-cap.png" so copy and paste the image name that matches the description to the image textbox below</div>
 					<div class="field" >
 						<table><tr>Image
@@ -152,18 +168,18 @@
 						
 					
 					
-					<!--div class="link"> <p>
+					<div class="link"> <p>
 						<a href="http://www.bing.com/images/search?q=dress%20clip%20art&qs=CT&form=QBIR&sp=1&pq=dress%20clip%20&sc=8-11&cvid=566FE547C65B48F1B83A2F9296254008&first=1&tsc=ImageHoverTitle">Pick any image here</a></p>
 					</div-->
-					</div>
+					<!--/div>
 					<div class="mt1">
 						<input onclick="myFunction()" type="button" name="action" value="Add" class="addGarmentBtn"  >
 						<input type="button" name="action" value="Hide" class="hideAddGarmetBtn" >
 					</div>
 					
 						</div>
-				<!-- </form> -->
-			</div>
+				<</form> -->
+			<!--/div>
 			<div class="garments">
 				<h2>Garments</h2>
 				
@@ -173,10 +189,8 @@
 		</div>
 
 		
-	</div>
+	</div-->
 	
-	<script src="app.js"></script>
-	<script src="field-manager.js"></script>
-	<script src="add-garments.js"></script>
+	
 </body>
 </html>

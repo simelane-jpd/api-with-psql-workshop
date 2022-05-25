@@ -1,26 +1,25 @@
 body {
-	font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-	font-size: 16px;
+	font-family:'Times New Roman', Times, serif;
+	font-size: 13px;
 	line-height: 1.5;
 	color: #333;
-	background-color: lightgoldenrodyellow;
 }
-
+.title{
+	color: white;
+}
 #addGarmentBtn {
 	margin-bottom: 2%;
 }
 
 #addGarmentBtn a:link, #addGarmentBtn a:visited {
-	
-	
-	color: black;
-	
-	
+	color: white;
+	text-decoration: none;
+	padding: 10px 10px;
+	text-decoration: none;
 }
 
 .container {
 	margin: auto;
-	width: 60%;
 }
 
 img {
@@ -39,7 +38,7 @@ img {
 
 .garment {
 	flex: 1;
-	background-color: beige;
+	/* background-color: beige; */
 	border: 1px solid greenyellow;
 	padding: 1em;
 	margin: 0.25em;
@@ -60,7 +59,12 @@ img {
 	margin-top: 1em;
 }
 
-
+.loginInfo{
+	margin-top: 15%;
+}
+.register, .login{
+	margin-left: 1%;
+}
 .message {
 
 	margin-top: 1em;
@@ -69,6 +73,12 @@ img {
 	background-color: lightsalmon;
 
 
+}
+.filter{
+	margin-top: 1%;
+}
+.errorMessage{
+	color: rgb(177, 69, 26);
 }
 
 /* The snackbar - position it at the bottom and in the middle of the screen */
@@ -105,8 +115,8 @@ img {
 	/* Show the snackbar */
 	/* Add animation: Take 0.5 seconds to fade in and out the snackbar.
 	However, delay the fade out process for 2.5 seconds */
-	-webkit-animation: fadein 2s, fadeout 2s 2.5s;
-	animation: fadein 2s, fadeout 2s 2.5s;
+	-webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+	animation: fadein 0.5s, fadeout 0.5s 2.5s;
 }
 
 /* Animations to fade the snackbar in and out */
