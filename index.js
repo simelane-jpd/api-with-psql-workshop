@@ -23,14 +23,28 @@ function get_PostgreSQL_connection() {
        application_name: cs.params?.application_name
    };
 }
- 
+
+
+
+let ssl = null;
+if (process.env.NODE_ENV === 'development') {
+ssl = {rejectUnauthorized: false};
+}
+const config = {
+connectionString: 'postgres://john:pass123@localhost:5432/products',
+max: 30,
+ssl:ssl
+};
+
 const pgp = PgPromise({});
+//const db = pgp(config);
+
  
-const db = pgp(get_PostgreSQL_connection());
+//const db = pgp(get_PostgreSQL_connection());
 
 // const DATABASE_URL = process.env.DATABASE_URL;
 // const pgp = PgPromise({});
-// const db = pgp(DATABASE_URL);
+ const db = pgp(DATABASE_URL);
 app.use(express.static('public'))
 API(app, db);
 
