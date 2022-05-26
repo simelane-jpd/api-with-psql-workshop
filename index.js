@@ -24,14 +24,14 @@ const cs = new ConnectionString(DATABASE_URL);
   // };
 //}
 
-let ssl = null;
-if (process.env.NODE_ENV === 'development') {
-   ssl = {rejectUnauthorized: false};
-}
+//let ssl = null;
+//if (process.env.NODE_ENV === 'development') {
+ //  ssl = {rejectUnauthorized: false};
+//}
 const config = {
     connectionString: process.env.DATABASE_URL || 'postgres://hleng:123@localhost:5432/garment_app',
     max: 30,
-    ssl:ssl
+    ssl:{rejectUnauthorized: false}
  };
  const pgp = PgPromise({});
  const db = pgp(config);
