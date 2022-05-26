@@ -12,29 +12,29 @@ const {ConnectionString} = require('connection-string');
 const { DATABASE_URL } = process.env;
 const cs = new ConnectionString(DATABASE_URL);
  
-//function get_PostgreSQL_connection() {
-   //return {
-      // host: cs.hostname,
-      // port: cs.port,
-      // database: cs.path?.[0],
-      // user: cs.user,
-      // password: cs.password,
-       //ssl: DATABASE_URL.includes('localhost') ? false : {rejectUnauthorized: false},
-      // application_name: cs.params?.application_name
-  // };
-//}
+function get_PostgreSQL_connection() {
+   return {
+       host: cs.hostname,
+       port: cs.port,
+       database: cs.path?.[0],
+       user: cs.user,
+       password: cs.password,
+       ssl: DATABASE_URL.includes('localhost') ? false : {rejectUnauthorized: false},
+       application_name: cs.params?.application_name
+   };
+}
 
 //let ssl = null;
 //if (process.env.NODE_ENV === 'development') {
  //  ssl = {rejectUnauthorized: false};
 //}
-//const config = {
-   // connectionString: process.env.DATABASE_URL || 'postgres://hleng:123@localhost:5432/garment_app',
-   // max: 30,
-    //ssl:{rejectUnauthorized: false}
- //};
- //const pgp = PgPromise({});
- //const db = pgp(config);
+const config = {
+    connectionString: process.env.DATABASE_URL || 'postgres://gary:gar123@localhost:5432/garment_app',
+    max: 30,
+    ssl:{rejectUnauthorized: false}
+ };
+ const pgp = PgPromise({});
+ const db = pgp(config);
  
 //let ssl = null;
 //if (process.env.NODE_ENV === 'development') {
@@ -53,8 +53,8 @@ const cs = new ConnectionString(DATABASE_URL);
 //const db = pgp(get_PostgreSQL_connection());
 
  //const DATABASE_URL = process.env.DATABASE_URL;
- const pgp = PgPromise({});
- const db = pgp(DATABASE_URL);
+ //const pgp = PgPromise({});
+ //const db = pgp(DATABASE_URL);
 app.use(express.static('public'))
 API(app, db);
 
