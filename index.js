@@ -28,13 +28,13 @@ const cs = new ConnectionString(DATABASE_URL);
 //if (process.env.NODE_ENV === 'development') {
  //  ssl = {rejectUnauthorized: false};
 //}
-const config = {
-    connectionString: process.env.DATABASE_URL || 'postgres://hleng:123@localhost:5432/garment_app',
-    max: 30,
-    ssl:{rejectUnauthorized: false}
- };
- const pgp = PgPromise({});
- const db = pgp(config);
+//const config = {
+   // connectionString: process.env.DATABASE_URL || 'postgres://hleng:123@localhost:5432/garment_app',
+   // max: 30,
+    //ssl:{rejectUnauthorized: false}
+ //};
+ //const pgp = PgPromise({});
+ //const db = pgp(config);
  
 //let ssl = null;
 //if (process.env.NODE_ENV === 'development') {
@@ -52,9 +52,9 @@ const config = {
  
 //const db = pgp(get_PostgreSQL_connection());
 
-// const DATABASE_URL = process.env.DATABASE_URL;
-// const pgp = PgPromise({});
- //const db = pgp(DATABASE_URL);
+ //const DATABASE_URL = process.env.DATABASE_URL;
+ const pgp = PgPromise({});
+ const db = pgp(DATABASE_URL);
 app.use(express.static('public'))
 API(app, db);
 
