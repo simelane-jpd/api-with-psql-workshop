@@ -29,7 +29,7 @@ if (process.env.NODE_ENV === 'development') {
    ssl = {rejectUnauthorized: false};
 }
 const config = {
-    connectionString: process.env.DATABASE_URL || 'postgres://john:pass123@localhost:5432/garment_app',
+    connectionString: process.env.DATABASE_URL || 'postgres://hleng:123@localhost:5432/garment_app',
     max: 30,
     ssl:ssl
  };
