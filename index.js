@@ -26,15 +26,15 @@ function get_PostgreSQL_connection() {
 
 //let ssl = null;
 //if (process.env.NODE_ENV === 'development') {
- //  ssl = {rejectUnauthorized: false};
+   //ssl = {rejectUnauthorized: false};
 //}
-const config = {
-    connectionString: process.env.DATABASE_URL || 'postgres://gary:gar123@localhost:5432/garment_app',
-    max: 30,
-    ssl:{rejectUnauthorized: false}
- };
+//const config = {
+   // connectionString: process.env.DATABASE_URL || 'postgres://gary:gar123@localhost:5432/garment_app',
+   // max: 30,
+    //ssl:{rejectUnauthorized: false}
+ //};
  const pgp = PgPromise({});
- const db = pgp(config);
+ //const db = pgp(config);
  
 //let ssl = null;
 //if (process.env.NODE_ENV === 'development') {
@@ -50,7 +50,7 @@ const config = {
 //const db = pgp(config);
 
  
-//const db = pgp(get_PostgreSQL_connection());
+const db = pgp(get_PostgreSQL_connection());
 
  //const DATABASE_URL = process.env.DATABASE_URL;
  //const pgp = PgPromise({});
