@@ -46,7 +46,7 @@ document.addEventListener('alpine:init', () => {
         },
         filterGarmentsByPrice(){
             axios
-            .get(`/api/garments/price/:price${this.maxPrice}`)
+            .get(`/api/garments/price/${this.maxPrice}`)
             .then(result => {
                 const results = result.data
                 this.garments=results.data

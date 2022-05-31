@@ -49,17 +49,36 @@ module.exports = function (app, db) {
 			// use an update query...
 
 			const { id } = req.params;
-			const garmentinfo = { ...req.body };
-			const fields = Object.keys(garmentinfo);
-			let newgarments = [];
-			for (const entry in garmentinfo) {
-				if (fields.includes(entry)) {
-					newgarments = [...newgarments, `${entry} = '${garmentinfo[entry]}'`];
-				}
+			const garment = await db.many(`select * from garment where id = $1`, [id]);
+			//const garmentinfo = { ...req.body };
+			//const fields = Object.keys(garmentinfo);
+			//let newgarments = [];
+			//for (const entry in garmentinfo) {
+				//if (fields.includes(entry)) {
+					//newgarments = [...newgarments, `${entry} = '${garmentinfo[entry]}'`];
+				//}
+			
+			//await db.none(`update garment set ${newgarments.toString()} where id=$1`, id);
+
+			let params = { ...garment, ...req.body };
+			const { description, price, img, season, gender } = params;
+			if (description) {
+				await db.oneOrNone(`update garment set description = $1 where id = $2`, [description, id])
 			}
-			await db.none(`update garment set ${newgarments.toString()} where id=$1`, id);
+			else if (price) {
+				await db.oneOrNone(`update garment set price = $1 where id = $2`, [price, id])
+			}
+			else if (img) {
+				await db.oneOrNone(`update img set img = $1 where id = $2`, [img, id])
 
+			}
+			else if (season) {
+				await db.oneOrNone(`update garment set season = $1 where id = $2`, [season, id])
 
+			}
+			else if (gender) {
+				await db.oneOrNone(`update garment set gender = $1 where id = $2`, [gender, id])
+			}
 			//const garment = await db.oneOrNone(`select * from garment where id = $1`, [id]);
 			//'select gender from garment where id = $1'
 
@@ -135,6 +154,17 @@ module.exports = function (app, db) {
 				error: err.message
 			})
 		}
+	});
+
+	app.get('/api/garments/price/:price', async function (req, res) {
+		const maxPrice = Number(req.params.price);
+		let result
+		if (maxPrice > 0) {
+			result = await db.many('select * from garment where price <= $1', [maxPrice])
+		}
+		res.json({
+			data: result
+		})
 	});
 
 	app.get('/api/garments/grouped', async function (req, res) {
