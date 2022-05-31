@@ -23,7 +23,7 @@ function get_PostgreSQL_connection() {
        application_name: cs.params?.application_name
    };
 }
-
+//const DATABASE_URL = process.env.DATABASE_URL || 'postgres://gary:gar123@localhost:5432/garment_app';
 //let ssl = null;
 //if (process.env.NODE_ENV === 'development') {
   // ssl = {rejectUnauthorized: false};
@@ -57,7 +57,9 @@ const db = pgp(get_PostgreSQL_connection());
  //const db = pgp(DATABASE_URL);
 app.use(express.static('public'))
 API(app, db);
-
+app.get('/', async function(req, res) {
+  console.log(req.query)
+});
 //configure the port number using and environment number
 var portNumber = process.env.PORT || 5000;
 
