@@ -69,12 +69,12 @@ const DATABASE_URL = process.env.DATABASE_URL || 'postgres://gary:gar123@localho
 app.use(express.static('public'))
 API(app, db);
 
-app.get('/', function (req, res) {
-  res.render('index.html')
-})
-//app.get('/', async function(req, res) {
-  //console.log(req.query)
-//});
+//app.get('/', function (req, res) {
+  //res.render('index.html')
+//})
+app.get('/', async function(req, res) {
+  console.log(req.query)
+});
 //configure the port number using and environment number
 var portNumber = process.env.PORT || 5000;
 
