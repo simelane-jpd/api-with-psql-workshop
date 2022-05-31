@@ -96,6 +96,7 @@
 					<input type="text" name="description" class="description" x-model="description">
 				</div>
 				<div class="field">
+					<div>Available images to choose from are : "green-dress.png, women-dress2.png, shirtmale.png, women-trouser.png, male-cap.png" so copy and paste the image name that matches the description to the image textbox below</div>
 					<label for="">Image</label>
 					<input type="text" name="img" class="img" x-model="img">
 				</div>
@@ -130,6 +131,7 @@
 				<div class="garments">
 					<template x-for="garment in garments">
 						<div class="garment">
+							<div> <i x-on:click="deleteGarment(garment.description)" class="fa-solid fa-trash"></i> </div>
 							<img :src="`images/${garment.img}`">
 							<div class="field">
 								<span x-text="garment.description"></span>
