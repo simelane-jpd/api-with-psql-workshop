@@ -23,16 +23,16 @@ app.use(express.urlencoded({ extended: false }));
       // application_name: cs.params?.application_name
   // };
 //}
-const DATABASE_URL = process.env.DATABASE_URL || 'postgres://gary:gar123@localhost:5432/garment_app';
+//const DATABASE_URL = process.env.DATABASE_URL || 'postgres://gary:gar123@localhost:5432/garment_app';
 //let ssl = null;
 //if (process.env.NODE_ENV === 'development') {
   // ssl = {rejectUnauthorized: false};
 //}
-//const config = {
-   // connectionString: process.env.DATABASE_URL || 'postgres://gary:gar123@localhost:5432/garment_app',
-   // max: 30,
-   // ssl:ssl
- //};
+const config = {
+    connectionString: process.env.DATABASE_URL || 'postgres://gary:gar123@localhost:5432/garment_app',
+    max: 30,
+    ssl:ssl
+ };
  const pgp = PgPromise({})
 // const config = {
  // connectionString: DATABASE_URL
@@ -58,14 +58,14 @@ const DATABASE_URL = process.env.DATABASE_URL || 'postgres://gary:gar123@localho
 //};
 
 
-//const db = pgp(config);
+const db = pgp(config);
 
  
 //const db = pgp(get_PostgreSQL_connection());
 
  //const DATABASE_URL = process.env.DATABASE_URL;
  //const pgp = PgPromise({});
- const db = pgp(DATABASE_URL);
+ //const db = pgp(DATABASE_URL);
 app.use(express.static('public'))
 API(app, db);
 
