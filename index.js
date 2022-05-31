@@ -23,49 +23,19 @@ app.use(express.urlencoded({ extended: false }));
       // application_name: cs.params?.application_name
   // };
 //}
-//const DATABASE_URL = process.env.DATABASE_URL || 'postgres://gary:gar123@localhost:5432/garment_app';
-//let ssl = null;
-//if (process.env.NODE_ENV === 'development') {
-  // ssl = {rejectUnauthorized: false};
-//}
+const DATABASE_URL = process.env.DATABASE_URL || 'postgres://gary:gar123@localhost:5432/garment_app';
+let ssl = null;
+if (process.env.NODE_ENV !== 'development') {
+   ssl = {rejectUnauthorized: false};
+}
+
 const config = {
-    connectionString: process.env.DATABASE_URL || 'postgres://gary:gar123@localhost:5432/garment_app',
+    connectionString: DATABASE_URL,
     max: 30,
-    ssl:{ rejectUnauthorized : false}
+    ssl
  };
  const pgp = PgPromise({})
-// const config = {
- // connectionString: DATABASE_URL
-//};
-
-// we normally only have a DATABAE_URL when we are on the Heroku server
-//if (process.env.DATABASE_URL) {
-  //config.ssl = { rejectUnauthorized: false };
-//}
-
-//const db = pgp(config);
-
- //const db = pgp(config);
- 
-//let ssl = null;
-//if (process.env.NODE_ENV === 'development') {
-//ssl = {rejectUnauthorized: false};
-//}
-//const config = {
-//connectionString: 'postgres://john:pass123@localhost:5432/products',
-//max: 30,
-//ssl:ssl
-//};
-
-
 const db = pgp(config);
-
- 
-//const db = pgp(get_PostgreSQL_connection());
-
- //const DATABASE_URL = process.env.DATABASE_URL;
- //const pgp = PgPromise({});
- //const db = pgp(DATABASE_URL);
 app.use(express.static('public'))
 API(app, db);
 
